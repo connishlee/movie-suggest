@@ -1,1 +1,5 @@
-pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+pandas 
+numpy 
+matplotlib 
+scikit-learn 
+jupyter
