@@ -14,5 +14,5 @@ def load_csv(file_path):
         print(f"Unexpected error: {e}")
 
 if __name__ == "__main__":
-    file_path = "datasets/the-movies-dataset/movies_metadata.csv"
+    file_path = "the-movies-dataset/movies_metadata.csv"
     load_csv(file_path)
