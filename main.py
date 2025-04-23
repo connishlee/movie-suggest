@@ -10,7 +10,6 @@ from collections import Counter
 nltk.download('punkt')
 
 def load_csv(file_path):
-    """Load a CSV file and return as DataFrame."""
     try:
         df = pd.read_csv(file_path, low_memory=False)
         print(f"File loaded successfully: {file_path}")
@@ -25,7 +24,6 @@ def load_csv(file_path):
     return None
 
 def remove_unnecessary_columns(df):
-    """Remove specified columns from the DataFrame."""
     columns_to_remove = [
         "adult", "belongs_to_collection", "budget", "homepage", 
         "poster_path", "production_companies", "production_countries", 
@@ -34,10 +32,17 @@ def remove_unnecessary_columns(df):
     df = df.drop(columns=columns_to_remove, errors='ignore')
     return df
 
+def clean_genres(genres_str):
+    if pd.isna(genres_str) or genres_str == '[]':
+        return ""
+    try:
+        parsed = ast.literal_eval(genres_str)
+        return ", ".join(d['name'] for d in parsed if isinstance(d, dict) and 'name' in d)
+    except Exception as e:
+        print(f"Error parsing genres: {genres_str} - {e}")
+        return ""
+
 def clean_keywords(keywords_str):
-    """
-    Convert keywords from JSON-like string to a clean comma-separated list.
-    """
     if pd.isna(keywords_str) or keywords_str == '[]':
         return ""
     try:
@@ -94,6 +99,8 @@ def main():
 
     if movies_df is not None and keywords_df is not None:
         merged_df = merge_movies_with_keywords(movies_df, keywords_df)
+        merged_df['genres'] = merged_df['genres'].apply(clean_genres)
+        
         print("Merged DataFrame:")
         print(merged_df.head())
 
