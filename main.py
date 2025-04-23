@@ -99,7 +99,7 @@ def main():
 
         analyze_overview_length(merged_df)
 
-        output_file = "data/enhanced_movies_dataset.csv"
+        output_file = "data/final_movies_dataset.csv"
         merged_df.to_csv(output_file, index=False)
         print(f"Merged file saved to: {output_file}")
 
